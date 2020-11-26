@@ -33,7 +33,7 @@ class Piano():
 			data = data.reshape(-1, 1)
 			data = np.concatenate([data, data], axis=1)
 			sounds.append(pg.sndarray.make_sound(data))
-		with open(path.join('utils', 'pianokeys.mapping')) as f:
+		with open(path.join('misc', 'pianokeys.mapping')) as f:
 			self.keys = f.read().split('\n')
 		self.key_note = dict(zip(self.keys, sounds))
 		self.pressed = {key: False for key in self.keys}
@@ -47,7 +47,7 @@ class Piano():
 	def start_playing(self, notes_file=''):
 		pg.init()
 
-		icon = pg.image.load(path.join('utils', 'icon.png'))
+		icon = pg.image.load(path.join('misc', 'icon.png'))
 		pg.display.set_icon(icon)
 		pg.display.set_caption("Virtual Piano")
 
@@ -60,7 +60,7 @@ class Piano():
 
 		self.screen = pg.display.set_mode(SIZE)
 		self.screen.fill((20, 11, 10))
-		bg = pg.image.load(path.join('utils', "keys.png")).convert()
+		bg = pg.image.load(path.join('misc', "keys.png")).convert()
 		self.screen.blit(bg, (0, SIZE[1]-282))
 
 		if notes_file:

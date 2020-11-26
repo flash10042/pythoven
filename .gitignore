@@ -1,2 +1,7 @@
 venv
-.ipynb_checkpoints
+.*
+midies
+samples
+*.mid
+*.wav
+*.ipynb
