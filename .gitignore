@@ -5,3 +5,5 @@ samples
 *.mid
 *.wav
 *.ipynb
+*.npy
+__pycache__

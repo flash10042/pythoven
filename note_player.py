@@ -102,11 +102,6 @@ if __name__ == '__main__':
 	notes += ' A2.A4_1'
 
 
-	#notes = 'E5_8 E5_8 A5_8 A5_8 E5_8 E5_8 C5_8 A2.C3.E3_1.6_1.6 *_4 E5_4 E5_8 E5_8 *_8 E5_4 E3.G3.B3_1.33_1.33'
-	#notes += ' *_8 D5_4 D5_8 D5_8 *_8 D5_8 D3.F3.A3_1.6_1.6 *_4 E5_8 A5_8 A5_8 E5_8 E5_8 C5_8 *_8'
-	#notes += ' ' + notes
-
-
 	song.generate_song(notes.split())
 	#song.save_wav()
 	song.play()

@@ -43,7 +43,7 @@ def midi2sample(filename):
 				sample.append(np.zeros(NOTES_RANGE+1))
 			sample[t] += note2vec
 
-	return np.array(sample, dtype=np.uint8)
+	return np.array(np.clip(sample, 0, 1), dtype=np.uint8)
 
 
 def sample2midi(sample, filename):
@@ -80,4 +80,5 @@ def sample2midi(sample, filename):
 if __name__ == '__main__':
 	for i, file in enumerate(listdir(MIDI_FOLDER)):
 		sample = midi2sample(file)
-		np.save(path.join(SAMPLES_FOLDER, str(i+1)), sample)
+		if not sample is None:
+			np.save(path.join(SAMPLES_FOLDER, str(i+1)), sample)
