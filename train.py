@@ -78,6 +78,6 @@ autoencoder.save(MODEL_NAME)
 
 encoder_preds = encoder.predict(x)
 means = encoder_preds.mean(axis=0)
-vars = encoder_preds.var(axis=0)
-distr = np.vstack((means, vars))
+stds = encoder_preds.std(axis=0)
+distr = np.vstack((means, stds))
 np.save('distrs.npy', distr)
