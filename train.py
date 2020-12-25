@@ -5,16 +5,18 @@ import tensorflow as tf
 from tensorflow.keras import Model, Input
 from tensorflow.keras.layers import Dense, Reshape, TimeDistributed, Flatten, Dropout, BatchNormalization
 from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.callbacks import ModelCheckpoint
 
 # FOLDER WITH TRAINING DATA
 FOLDER = 'samples'
+CHECKPOINTS_FOLDER = 'checkpoints'
 
 TIME = 10
 NOTES = 88
 LENGTH = 20
 
 ENCODED_SHAPE = 200
-EPOCHS = 2000
+EPOCHS = 1500
 
 MODEL_NAME = 'composer.h5'
 
@@ -43,20 +45,23 @@ encoder_input = Input((LENGTH, TIME, NOTES))
 X = Reshape((LENGTH, -1))(encoder_input)
 X = TimeDistributed(Dense(100, activation='relu'))(X)
 X = Dropout(0.1)(X)
+X = BatchNormalization()(X)
 X = Flatten()(X)
 X = Dense(ENCODED_SHAPE)(X)
-X = BatchNormalization()(X)
 
 encoder = Model(encoder_input, X, name='encoder')
 
 decoder_input = Input(ENCODED_SHAPE)
-X = Dense(100*LENGTH)(decoder_input)
+X = BatchNormalization()(decoder_input)
+X = Dense(100*LENGTH)(X)
 X = Dropout(0.1)(X)
+X = BatchNormalization()(X)
 X = Reshape((LENGTH, -1))(X)
 X = TimeDistributed(Dense(64*TIME))(X)
 X = Dropout(0.1)(X)
+X = BatchNormalization()(X)
 X = Reshape((LENGTH, TIME, -1))(X)
-decoder_output = TimeDistributed(Dense(88, activation='sigmoid'))(X)
+decoder_output = TimeDistributed(Dense(NOTES, activation='sigmoid'))(X)
 
 decoder = Model(decoder_input, decoder_output, name='decoder')
 
@@ -70,7 +75,8 @@ autoencoder.compile(RMSprop(0.001), loss='binary_crossentropy')
 
 # TRAINING
 
-autoencoder.fit(x, x, batch_size=256, epochs=EPOCHS, use_multiprocessing=True)
+checkpoints = ModelCheckpoint(CHECKPOINTS_FOLDER, monitor='loss')
+autoencoder.fit(x, x, batch_size=256, epochs=EPOCHS, use_multiprocessing=True, callbacks=[checkpoints])
 
 autoencoder.save(MODEL_NAME)
 
