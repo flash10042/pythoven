@@ -28,8 +28,4 @@ Script train.py creates and trains autoencoder, then saves trained model to mode
 
 Script generate.py takes decoder part of autoencoder and uses it to generate new music.
 
-P.S. I tried to underfit the model, so it shouldn't generate just fully memorizied songs.
-
-P.P.S. Maybe I'll try to train a GAN for this task and then create a new repository with neural nets only.
-
-P.P.P.S. Maybe I'll provide more information about current model architecture later.
+TODO: Add more info about autoencoder to readme.md, maybe try GAN?
